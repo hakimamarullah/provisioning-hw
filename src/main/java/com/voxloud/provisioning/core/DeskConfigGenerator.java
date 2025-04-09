@@ -3,19 +3,17 @@ package com.voxloud.provisioning.core;
 import com.voxloud.provisioning.config.ProvisioningProps;
 import com.voxloud.provisioning.entity.Device;
 import com.voxloud.provisioning.utils.MapUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(ConfigBeanType.DESK)
+@Component("desk")
+@RequiredArgsConstructor
 public class DeskConfigGenerator implements DeviceConfigurationGenerator {
 
     private final ProvisioningProps provisioningProps;
-
-    public DeskConfigGenerator(ProvisioningProps provisioningProps) {
-        this.provisioningProps = provisioningProps;
-    }
 
     @Override
     public String generateConfig(Device device) {

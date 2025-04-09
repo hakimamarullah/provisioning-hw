@@ -1,12 +1,13 @@
 package com.voxloud.provisioning.entity;
 
+import lombok.Data;
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-
-import lombok.Data;
 
 @Entity
 @Data
@@ -27,8 +28,15 @@ public class Device {
 
     private String password;
 
+    @Getter
     public enum DeviceModel {
-        CONFERENCE,
-        DESK
+        CONFERENCE("conference"),
+        DESK("desk");
+
+        private final String name;
+
+        DeviceModel(String name) {
+            this.name = name;
+        }
     }
 }

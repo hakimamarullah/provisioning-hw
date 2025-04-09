@@ -25,7 +25,7 @@ public class MapUtils {
     }
 
     public static Map<String, Object> fromPropertyString(String property) {
-        if (StringUtils.isEmpty(property)) {
+        if (!StringUtils.hasText(property)) {
             return new HashMap<>();
         }
         Map<String, Object> result = new HashMap<>();

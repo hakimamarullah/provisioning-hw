@@ -5,23 +5,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.voxloud.provisioning.config.ProvisioningProps;
 import com.voxloud.provisioning.entity.Device;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Component(ConfigBeanType.CONFERENCE)
+@Component("conference")
+@RequiredArgsConstructor
 public class ConferenceConfigGenerator implements DeviceConfigurationGenerator {
 
     private final ProvisioningProps provisioningProps;
 
     private final ObjectMapper mapper;
-
-    public ConferenceConfigGenerator(ProvisioningProps provisioningProps, ObjectMapper mapper) {
-        this.provisioningProps = provisioningProps;
-        this.mapper = mapper;
-    }
 
     @Override
     public String generateConfig(Device device) throws JsonProcessingException {
