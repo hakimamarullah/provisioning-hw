@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Optional;
 
 @Entity
+@Table(name = "device")
 @Data
 public class Device {
 
@@ -30,13 +33,23 @@ public class Device {
 
     @Getter
     public enum DeviceModel {
-        CONFERENCE("conference"),
-        DESK("desk");
+        CONFERENCE("conference", ".json"),
+        DESK("desk", ".properties");
 
-        private final String name;
+        private final String type;
+        private final String configFileExt;
 
-        DeviceModel(String name) {
-            this.name = name;
+        DeviceModel(String type, String configFileExt) {
+            this.type = type;
+            this.configFileExt = configFileExt;
         }
+    }
+
+    public String getModelType() {
+        return Optional.ofNullable(model).map(DeviceModel::getType).orElse(null);
+    }
+
+    public String getConfigFileExt() {
+        return Optional.ofNullable(model).map(DeviceModel::getConfigFileExt).orElse(null);
     }
 }

@@ -1,0 +1,22 @@
+name: Run Unit Test
+on:
+  push:
+    branches:
+      - master
+jobs:
+  unit_test:
+    name: Execute Unit Tests
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Run Maven unit tests
+        run: mvn test
