@@ -67,7 +67,7 @@ class ProvisioningServiceImplTest {
         // Mock DeviceConfigurationGenerator
         DeviceConfigurationGenerator deskGenerator = mock(DeskConfigGenerator.class);
         doReturn(provisioningFile).when(deskGenerator).generateConfig(device);
-        doReturn(deskGenerator).when(beanFactory).getBean(Device.DeviceModel.DESK.getName());
+        doReturn(deskGenerator).when(beanFactory).getBean(Device.DeviceModel.DESK.getType());
 
         // Act
         String actual = provisioningService.getProvisioningFile(macAddress);
@@ -77,7 +77,7 @@ class ProvisioningServiceImplTest {
 
         verify(deviceRepository).findFirstByMacAddress(macAddress);
         verify(deskGenerator).generateConfig(device);
-        verify(beanFactory).getBean(Device.DeviceModel.DESK.getName());
+        verify(beanFactory).getBean(Device.DeviceModel.DESK.getType());
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.voxloud.provisioning.core.DeviceConfigurationGenerator;
 import com.voxloud.provisioning.entity.Device;
 import com.voxloud.provisioning.exceptions.DeviceNotFoundException;
 import com.voxloud.provisioning.exceptions.InvalidDeviceModelException;
+import com.voxloud.provisioning.models.ConfigFileDTO;
 import com.voxloud.provisioning.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanFactory;
@@ -27,7 +28,21 @@ public class ProvisioningServiceImpl implements ProvisioningService {
         if (Objects.isNull(device.getModel())) {
             throw new InvalidDeviceModelException();
         }
-        DeviceConfigurationGenerator deviceConfigurationGenerator = (DeviceConfigurationGenerator) beanFactory.getBean(device.getModel().getName());
+        DeviceConfigurationGenerator deviceConfigurationGenerator = (DeviceConfigurationGenerator) beanFactory.getBean(device.getModel().getType());
         return deviceConfigurationGenerator.generateConfig(device);
+    }
+
+    @Override
+    public ConfigFileDTO getProvisioningFileDTO(String macAddress) throws JsonProcessingException {
+        Device device = deviceRepository.findFirstByMacAddress(macAddress).orElseThrow(() -> new DeviceNotFoundException("Device Not Found: " + macAddress));
+        if (Objects.isNull(device.getModel())) {
+            throw new InvalidDeviceModelException();
+        }
+        DeviceConfigurationGenerator deviceConfigurationGenerator = (DeviceConfigurationGenerator) beanFactory.getBean(device.getModel().getType());
+        ConfigFileDTO fileDTO = new ConfigFileDTO();
+        String fileName = macAddress + "_" + device.getModelType() + device.getConfigFileExt();
+        fileDTO.setFileName(fileName);
+        fileDTO.setContent(deviceConfigurationGenerator.generateConfig(device));
+        return fileDTO;
     }
 }
